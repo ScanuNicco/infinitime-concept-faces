@@ -9,8 +9,9 @@ manifest so InfiniTime Builder can add them to your firmware.
 ![All ten faces at 10:08](screenshots/faces.png)
 
 *Top: Tiles, Horizon, Words, Rally, Outlook. Bottom: Glow, Noir, Subdial, Constellation, Almanac.
-Screenshots from the InfiniEmu emulator; the weather and step count are sample data, since the
-emulator has no phone connection or motion sensor.*
+Screenshots from the InfiniEmu emulator at 10:08 AM, with the watch set to 12-hour time and °F. The
+weather (Truckee, CA), step count and battery level are sample data, since the emulator has no phone
+connection or sensors.*
 
 ## The faces
 

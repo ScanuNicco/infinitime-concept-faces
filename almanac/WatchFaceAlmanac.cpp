@@ -71,7 +71,9 @@ namespace {
     }
     int n = twoDigits ? snprintf(buf + at, size - at, "%02d", value) : snprintf(buf + at, size - at, "%d", value);
     at += static_cast<size_t>(n > 0 ? n : 0);
-    if (gap && at + 1 < size) {
+    // one space between zero-padded numbers; 12-hour hours (1-12, mixed widths) need two to stay apart
+    const size_t spaces = twoDigits ? 1 : 2;
+    for (size_t i = 0; gap && i < spaces && at + 1 < size; i++) {
       buf[at++] = ' ';
       buf[at] = '\0';
     }

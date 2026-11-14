@@ -15,6 +15,7 @@
       "sources": [
         "tiles/WatchFaceTiles.cpp"
       ],
+      "screenshot": "screenshots/tiles.png",
       "resources": {
         "fonts": {
           "tiles_digits": {
@@ -49,6 +50,7 @@
       "sources": [
         "horizon/WatchFaceHorizon.cpp"
       ],
+      "screenshot": "screenshots/horizon.png",
       "resources": {
         "fonts": {
           "horizon_time": {
@@ -106,7 +108,8 @@
       "header": "words/WatchFaceWords.h",
       "sources": [
         "words/WatchFaceWords.cpp"
-      ]
+      ],
+      "screenshot": "screenshots/words.png"
     },
     {
       "type": "watchface",
@@ -117,6 +120,7 @@
       "sources": [
         "rally/WatchFaceRally.cpp"
       ],
+      "screenshot": "screenshots/rally.png",
       "resources": {
         "fonts": {
           "rally_digits": {
@@ -155,6 +159,7 @@
       "sources": [
         "outlook/WatchFaceOutlook.cpp"
       ],
+      "screenshot": "screenshots/outlook.png",
       "resources": {
         "fonts": {
           "outlook_time": {
@@ -305,6 +310,7 @@
       "sources": [
         "glow/WatchFaceGlow.cpp"
       ],
+      "screenshot": "screenshots/glow.png",
       "resources": {
         "fonts": {
           "glow_text": {
@@ -329,6 +335,7 @@
       "sources": [
         "noir/WatchFaceNoir.cpp"
       ],
+      "screenshot": "screenshots/noir.png",
       "resources": {
         "fonts": {
           "noir_text": {
@@ -353,6 +360,7 @@
       "sources": [
         "subdial/WatchFaceSubdial.cpp"
       ],
+      "screenshot": "screenshots/subdial.png",
       "resources": {
         "fonts": {
           "subdial_text": {
@@ -377,6 +385,7 @@
       "sources": [
         "constellation/WatchFaceConstellation.cpp"
       ],
+      "screenshot": "screenshots/constellation.png",
       "resources": {
         "fonts": {
           "constellation_text": {
@@ -407,6 +416,7 @@
       "sources": [
         "almanac/WatchFaceAlmanac.cpp"
       ],
+      "screenshot": "screenshots/almanac.png",
       "resources": {
         "fonts": {
           "almanac_hour": {

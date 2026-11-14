@@ -55,6 +55,7 @@ def face(enum: str, name: str, folder: str, description: str, fonts=None, images
         "description": description,
         "header": f"{folder}/WatchFace{enum}.h",
         "sources": [f"{folder}/WatchFace{enum}.cpp"],
+        "screenshot": f"screenshots/{folder}.png",  # shown by InfiniTime Builder
     }
     resources = {}
     if fonts:
