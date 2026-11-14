@@ -20,7 +20,7 @@ emulator has no phone connection or motion sensor.*
 | **Horizon** | Time and date over a dome where the sun travels from today's sunrise to sunset (a moon at night), with temperature, high/low and location. | 3 fonts, 3 images, weather |
 | **Words** | A word clock: "IT IS TEN PAST THREE" lit among dim letters, the date in yellow. Five-minute steps. | built-in font |
 | **Rally** | A small analog clock inside a numbered bezel. The track round the edge fills from green to yellow as you walk towards your step goal. | 1 font, steps |
-| **Outlook** | Large time, date, weather icon and temperature, battery, and icons for the next three days. | 3 fonts, weather |
+| **Outlook** | Large time and date over an arc; weather icon, temperature, battery, and icons for the next three days. | 3 fonts, 26 images, weather |
 | **Glow** | Minimal analog with cyan hands, a red second hand, the date, battery and Bluetooth. | 1 font |
 | **Noir** | Long white hands and a red second hand on black, with the day and date at three. | 1 font |
 | **Subdial** | A dress-watch face with a small-seconds sub-dial at six, a date window and the weekday. | 1 font |
@@ -54,11 +54,14 @@ resource pack as `/fonts/<name>.bin` and `/images/<name>.bin`. The faces check f
 `lv_img_set_src(img, "F:/images/...")`, and fall back to built-in fonts if something is missing.
 
 Fonts are loaded into the watch's RAM, so each contains only the characters its face can show: from
-0.4 KB (Rally) to 8 KB (Horizon). Images are drawn straight from flash. Constellation's starfield is
-a 1-bit image (7 KB), white stars on transparent, tinted by the face.
+0.4 KB (Rally) to about 8 KB (Horizon, Outlook). Keep it around there: a face that loaded 16 KB of
+fonts crashed the watch in testing. Images are drawn straight from flash and cost no RAM, which is
+why Outlook's weather icons are images (one per icon and size) rather than a font holding them all.
+Constellation's starfield is a 1-bit image (7 KB), white stars on transparent, tinted by the face.
 
 The two scripts in [`tools/`](tools/) generate the manifest (computing each font's characters from
-the month, day and weather words it shows) and the images (plus Horizon's sun-path coordinates):
+the month, day and weather words it shows) and the images (Horizon's dome, Constellation's stars,
+Outlook's weather icons, and Horizon's sun-path coordinates):
 
     python3 tools/make_manifest.py
     python3 tools/make_images.py
@@ -73,4 +76,6 @@ shared by their designer for developers to build. The "pebble" logo on one conce
 weekday.
 
 Code: GPL-3.0, like InfiniTime. Fonts: [Barlow Condensed](https://github.com/jpt/barlow), SIL Open
-Font License 1.1 (see [`fonts/OFL.txt`](fonts/OFL.txt)).
+Font License 1.1 (see [`fonts/OFL.txt`](fonts/OFL.txt)). Weather icons:
+[Font Awesome Free](https://fontawesome.com) 5.15.4 by Fonticons, Inc., SIL OFL 1.1 (see
+[`fonts/FontAwesome-LICENSE.txt`](fonts/FontAwesome-LICENSE.txt)) — the same icons InfiniTime uses.

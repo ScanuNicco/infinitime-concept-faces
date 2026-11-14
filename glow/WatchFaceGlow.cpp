@@ -11,9 +11,9 @@ namespace {
   constexpr const char* fontPath = "/fonts/glow_text.bin";
   constexpr lv_coord_t cx = 120;
   constexpr lv_coord_t cy = 120;
-  const lv_color_t cyan = lv_color_hex(0x40e0d0);
+  const lv_color_t aqua = lv_color_hex(0x9cfdfb); // hands and dial marks, as in the concept
   const lv_color_t red = lv_color_hex(0xff2d55);
-  const lv_color_t tick = lv_color_hex(0xbfc8cc);
+  const lv_color_t icons = lv_color_hex(0xdddddd);
 }
 
 bool WatchFaceGlow::IsAvailable(Pinetime::Controllers::FS& filesystem) {
@@ -28,23 +28,25 @@ WatchFaceGlow::WatchFaceGlow(Controllers::DateTime& dateTime,
   font = LoadFont(filesystem, fontPath);
 
   Background(LV_COLOR_BLACK);
-  Ticks(cx, cy, 228, 60, 4, 1, lv_color_hex(0x6a7378));
-  Ticks(cx, cy, 228, 12, 10, 2, tick);
+  // the dial: a mark every minute, longer every five, longest at 12, 3, 6 and 9
+  Ticks(cx, cy, 232, 60, 4, 2, aqua);
+  Ticks(cx, cy, 232, 12, 10, 3, aqua);
+  Ticks(cx, cy, 232, 4, 16, 3, aqua);
 
   date = Label(Or(font, &jetbrains_mono_bold_20), LV_COLOR_WHITE);
 
-  // battery gauge (top left) and Bluetooth (top right)
-  lv_obj_t* outline = Rect(lv_scr_act(), 14, 14, 18, 9, LV_COLOR_BLACK, 2);
-  lv_obj_set_style_local_border_width(outline, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 1);
-  lv_obj_set_style_local_border_color(outline, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, tick);
-  Rect(lv_scr_act(), 32, 16, 2, 5, tick);
-  batteryFill = Rect(lv_scr_act(), 16, 16, 14, 5, cyan, 1);
-  bluetooth = Label(&jetbrains_mono_bold_20, tick);
+  // upright battery (top left), filling from the bottom, and Bluetooth (top right)
+  Rect(lv_scr_act(), 15, 8, 6, 2, icons);
+  lv_obj_t* outline = Rect(lv_scr_act(), 12, 10, 12, 20, LV_COLOR_BLACK, 2);
+  lv_obj_set_style_local_border_width(outline, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 2);
+  lv_obj_set_style_local_border_color(outline, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, icons);
+  batteryFill = Rect(lv_scr_act(), 15, 13, 6, 14, icons, 1);
+  bluetooth = Label(&jetbrains_mono_bold_20, icons);
   lv_label_set_text_static(bluetooth, Symbols::bluetooth);
   lv_obj_set_pos(bluetooth, 212, 8);
 
-  hourHand.Create(cyan, 5);
-  minuteHand.Create(cyan, 4);
+  hourHand.Create(aqua, 5);
+  minuteHand.Create(aqua, 4);
   secondHand.Create(red, 2);
   Circle(cx, cy, 5, red);
   Circle(cx, cy, 2, LV_COLOR_BLACK);
@@ -77,7 +79,9 @@ void WatchFaceGlow::Refresh() {
   batteryPercent = battery.PercentRemaining();
   if (batteryPercent.IsUpdated()) {
     const uint8_t pct = batteryPercent.Get() > 100 ? 100 : batteryPercent.Get();
-    lv_obj_set_width(batteryFill, static_cast<lv_coord_t>(1 + pct * 13 / 100));
+    const lv_coord_t h = static_cast<lv_coord_t>(1 + pct * 13 / 100);
+    lv_obj_set_height(batteryFill, h);
+    lv_obj_set_y(batteryFill, static_cast<lv_coord_t>(27 - h));
   }
   connected = ble.IsConnected();
   if (connected.IsUpdated()) {

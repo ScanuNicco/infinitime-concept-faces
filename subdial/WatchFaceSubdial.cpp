@@ -34,25 +34,24 @@ WatchFaceSubdial::WatchFaceSubdial(Controllers::DateTime& dateTime, Controllers:
     if (h == 3 || h == 6) {
       continue;
     }
-    const int inner = h == 0 ? 96 : 104;
-    marks[next].Create(mark, h == 0 ? 4 : 2, false);
-    marks[next].Set(Polar(cx, cy, inner, h * 30), Polar(cx, cy, 116, h * 30));
+    // the marks follow the edge of the screen, pointing at the centre
+    marks[next].Create(mark, 3, false);
+    marks[next].EdgeTick(cx, cy, 119, h * 30, h == 0 ? 20 : 16);
     next++;
   }
 
   weekday = Label(text, yellow);
 
-  // date window at three o'clock
-  lv_obj_t* window = Rect(lv_scr_act(), 190, cy - 11, 30, 22, dial, 2);
-  lv_obj_set_style_local_border_width(window, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 1);
-  lv_obj_set_style_local_border_color(window, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, silver);
-  date = Label(text, LV_COLOR_WHITE, window);
+  // date window at three o'clock: black on white
+  lv_obj_t* window = Rect(lv_scr_act(), 202, cy - 11, 32, 22, LV_COLOR_WHITE, 1);
+  date = Label(text, LV_COLOR_BLACK, window);
 
   // small-seconds sub-dial at six o'clock
-  lv_obj_t* sub = Rect(lv_scr_act(), subX - subHalf, subY - subHalf, 2 * subHalf, 2 * subHalf, lv_color_hex(0x161718), 4);
-  lv_obj_set_style_local_border_width(sub, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 1);
-  lv_obj_set_style_local_border_color(sub, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x4a4a4a));
-  Ticks(subX, subY, 2 * subHalf - 4, 12, 3, 1, lv_color_hex(0x5a5a5a));
+  Rect(lv_scr_act(), subX - subHalf, subY - subHalf, 2 * subHalf, 2 * subHalf, lv_color_hex(0x2a2b2d), 6);
+  for (int i = 0; i < 12; i++) {
+    subMarks[i].Create(lv_color_hex(0x5e5e5e), 1, false);
+    subMarks[i].EdgeTick(subX, subY, subHalf - 3, i * 30, 4);
+  }
   secondHand.Create(green, 2);
   Circle(subX, subY, 2, green);
 
@@ -78,7 +77,7 @@ void WatchFaceSubdial::Refresh() {
     const int m = minute.Get();
     hourHand.Hand(cx, cy, h * 30 + m / 2, 56, 8);
     minuteHand.Hand(cx, cy, m * 6, 96, 8);
-    lv_label_set_text(weekday, dateTime.DayOfWeekToString());
+    lv_label_set_text(weekday, Controllers::DateTime::DayOfWeekToStringLow(dateTime.DayOfWeek()));
     lv_obj_align(weekday, nullptr, LV_ALIGN_IN_TOP_MID, 0, 50);
     lv_label_set_text_fmt(date, "%d", dateTime.Day());
     lv_obj_align(date, nullptr, LV_ALIGN_CENTER, 0, 1);

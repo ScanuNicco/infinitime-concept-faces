@@ -9,6 +9,8 @@ contains only the glyphs it needs (fonts are loaded into the watch's RAM).
 import json
 from pathlib import Path
 
+from make_images import WEATHER_ICONS, WEATHER_SIZES
+
 ROOT = Path(__file__).resolve().parent.parent
 
 MONTHS_UP = "JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC"
@@ -23,6 +25,7 @@ DEGREE = "°"
 LIGHT = "fonts/BarlowCondensed-Light.ttf"
 MEDIUM = "fonts/BarlowCondensed-Medium.ttf"
 SEMIBOLD = "fonts/BarlowCondensed-SemiBold.ttf"
+
 
 
 def syms(*parts: str) -> str:
@@ -89,16 +92,19 @@ FACES = [
          fonts={"rally_digits": font(SEMIBOLD, 16, symbols=DIGITS)}),
     face("Outlook", "Outlook", "outlook", "Large time and date, the weather and battery, and the coming days' forecast.",
          fonts={
-             "outlook_time": font(LIGHT, 72, symbols=DIGITS + ":"),
-             "outlook_temp": font(SEMIBOLD, 40, symbols=syms(DIGITS, "-", DEGREE)),
-             "outlook_text": font(SEMIBOLD, 18, symbols=syms(DIGITS, " %", MONTHS_UP, DAYS_UP)),
-         }),
+             "outlook_time": font(LIGHT, 88, symbols=DIGITS + ":"),
+             "outlook_temp": font(SEMIBOLD, 48, symbols=syms(DIGITS, "-", DEGREE)),
+             "outlook_text": font(SEMIBOLD, 19, symbols=syms(DIGITS, " %", MONTHS_UP, DAYS_UP)),
+         },
+         # weather icons as images: drawn from flash, so they cost no RAM (a font would hold every icon)
+         images={f"{prefix}{name}": image(f"images/{prefix}{name}.png")
+                 for prefix in WEATHER_SIZES for name in WEATHER_ICONS}),
     face("Glow", "Glow", "glow", "Minimal analog: cyan hands, a red second hand, the date, battery and Bluetooth.",
          fonts={"glow_text": font(SEMIBOLD, 15, symbols=syms(DIGITS, " ", DAYS_SHORT_UP, MONTHS_UP))}),
     face("Noir", "Noir", "noir", "Long white hands and a red second hand on black, with the date at three.",
          fonts={"noir_text": font(MEDIUM, 16, symbols=syms(DIGITS, " ", DAYS_SHORT_UP))}),
     face("Subdial", "Subdial", "subdial", "A dress-watch face with a small-seconds sub-dial, date window and weekday.",
-         fonts={"subdial_text": font(SEMIBOLD, 16, symbols=syms(DIGITS, DAYS_UP))}),
+         fonts={"subdial_text": font(MEDIUM, 18, symbols=syms(DIGITS, DAYS_LOW))}),
     face("Constellation", "Constellation", "constellation",
          "The hour and minute as stars joined like a constellation, on a starry sky, with the weather and date.",
          fonts={"constellation_text": font(MEDIUM, 22, symbols=syms(DIGITS, " -", DEGREE, CONDITIONS, MONTHS_UP, DAYS_SHORT_UP))},
@@ -106,8 +112,10 @@ FACES = [
     face("Almanac", "Almanac", "almanac",
          "The time as two rulers, hours above and minutes below, with the weather and date.",
          fonts={
-             "almanac_big": font(SEMIBOLD, 34, symbols=DIGITS),
-             "almanac_small": font(MEDIUM, 16, symbols=syms(DIGITS, " -", DEGREE, "CF", DAYS_SHORT_LOW, MONTHS_LOW)),
+             "almanac_hour": font(LIGHT, 46, symbols=DIGITS),
+             "almanac_minute": font(LIGHT, 38, symbols=DIGITS),
+             "almanac_mid": font(LIGHT, 26, symbols=DIGITS + " "),
+             "almanac_small": font(MEDIUM, 19, symbols=syms(DIGITS, " -", DEGREE, "CF", DAYS_SHORT_LOW, MONTHS_LOW)),
          }),
 ]
 

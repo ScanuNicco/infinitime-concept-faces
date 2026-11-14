@@ -19,8 +19,9 @@ namespace Pinetime {
   namespace Applications {
     namespace Screens {
 
-      // Outlook: large time and date, then the weather and battery, and the next days' forecast.
-      // Fonts: /fonts/outlook_{time,temp,text}.bin.
+      // Outlook: large time and date over an arc; below it the weather icon, temperature, battery and
+      // the coming days' forecast. Fonts /fonts/outlook_{time,temp,text}.bin; weather icons are images
+      // (/images/outlook_wx_*.bin and the small /images/outlook_wxs_*.bin) so they cost no RAM.
       class WatchFaceOutlook : public Screen {
       public:
         WatchFaceOutlook(Controllers::DateTime& dateTime,
@@ -59,7 +60,8 @@ namespace Pinetime {
         lv_obj_t* batteryText;
         lv_obj_t* batteryFill;
         std::array<lv_obj_t*, 3> forecastIcons;
-        lv_point_t curve[9];
+        std::array<lv_obj_t*, 2> forecastDashes;
+        lv_point_t arc[13];
         lv_task_t* refreshTask;
       };
     }

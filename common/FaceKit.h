@@ -99,6 +99,24 @@ namespace ConceptFaces {
     return {static_cast<lv_coord_t>(cx + r * sin / trigScale), static_cast<lv_coord_t>(cy - r * cos / trigScale)};
   }
 
+  // Where a ray from (cx, cy) at `degrees` (clockwise from 12) meets a square of half-size `half`
+  // centred on (cx, cy). Used for marks that follow the edge of the (square) screen.
+  inline lv_point_t OnSquare(lv_coord_t cx, lv_coord_t cy, int32_t half, int32_t degrees) {
+    const lv_point_t dir = Polar(0, 0, 1000, degrees);
+    const int32_t ax = dir.x < 0 ? -dir.x : dir.x;
+    const int32_t ay = dir.y < 0 ? -dir.y : dir.y;
+    const int32_t m = ax > ay ? ax : ay;
+    return {static_cast<lv_coord_t>(cx + dir.x * half / m), static_cast<lv_coord_t>(cy + dir.y * half / m)};
+  }
+
+  // Distance from the centre to that point.
+  inline int32_t SquareRadius(int32_t half, int32_t degrees) {
+    const lv_point_t dir = Polar(0, 0, 1000, degrees);
+    const int32_t ax = dir.x < 0 ? -dir.x : dir.x;
+    const int32_t ay = dir.y < 0 ? -dir.y : dir.y;
+    return 1000 * half / (ax > ay ? ax : ay);
+  }
+
   // A straight line (clock hand, connector...). Keep it as a member: LVGL keeps a pointer to the points.
   struct Line {
     lv_obj_t* obj = nullptr;
@@ -115,6 +133,12 @@ namespace ConceptFaces {
       points[0] = from;
       points[1] = to;
       lv_line_set_points(obj, points, 2);
+    }
+
+    // A mark pointing at the centre, from the edge of a square of half-size `half` inwards by `length`.
+    void EdgeTick(lv_coord_t cx, lv_coord_t cy, int32_t half, int32_t degrees, int32_t length) {
+      const int32_t r = SquareRadius(half, degrees);
+      Set(Polar(cx, cy, r - length, degrees), Polar(cx, cy, r, degrees));
     }
 
     // A clock hand from (cx, cy): `back` pixels behind the centre to `length` pixels out.

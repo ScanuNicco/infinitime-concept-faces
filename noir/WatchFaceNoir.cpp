@@ -27,17 +27,18 @@ WatchFaceNoir::WatchFaceNoir(Controllers::DateTime& dateTime, Controllers::FS& f
     if (h == 3) {
       continue;
     }
+    // the marks follow the edge of the screen, pointing at the centre; shorter at 6 and 9
     marks[next].Create(grey, 2, false);
-    marks[next].Set(Polar(cx, cy, 104, h * 30), Polar(cx, cy, 118, h * 30));
+    marks[next].EdgeTick(cx, cy, 119, h * 30, h % 3 == 0 ? 14 : 24);
     next++;
   }
   twelveLeft.Create(LV_COLOR_WHITE, 2, false);
-  twelveLeft.Set({cx - 4, 2}, {cx - 4, 18});
+  twelveLeft.Set({cx - 4, 1}, {cx - 4, 22});
   twelveRight.Create(LV_COLOR_WHITE, 2, false);
-  twelveRight.Set({cx + 4, 2}, {cx + 4, 18});
+  twelveRight.Set({cx + 4, 1}, {cx + 4, 22});
 
   date = Label(Or(font, &jetbrains_mono_bold_20), LV_COLOR_WHITE);
-  Rect(lv_scr_act(), 224, cy - 1, 14, 2, LV_COLOR_WHITE);
+  Rect(lv_scr_act(), 225, cy - 1, 15, 2, grey);
 
   hourHand.Create(LV_COLOR_WHITE, 4);
   minuteHand.Create(LV_COLOR_WHITE, 3);

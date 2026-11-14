@@ -150,7 +150,7 @@
                 "symbols": "0123456789:"
               }
             ],
-            "size": 72,
+            "size": 88,
             "bpp": 2
           },
           "outlook_temp": {
@@ -160,7 +160,7 @@
                 "symbols": "0123456789°-"
               }
             ],
-            "size": 40,
+            "size": 48,
             "bpp": 2
           },
           "outlook_text": {
@@ -170,8 +170,114 @@
                 "symbols": " %0123456789ABCDEFGHIJLMNOPRSTUVWY"
               }
             ],
-            "size": 18,
+            "size": 19,
             "bpp": 2
+          }
+        },
+        "images": {
+          "outlook_wx_sun": {
+            "sources": "images/outlook_wx_sun.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_moon": {
+            "sources": "images/outlook_wx_moon.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_cloudsun": {
+            "sources": "images/outlook_wx_cloudsun.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_cloudmoon": {
+            "sources": "images/outlook_wx_cloudmoon.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_cloud": {
+            "sources": "images/outlook_wx_cloud.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_brokenclouds": {
+            "sources": "images/outlook_wx_brokenclouds.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_showers": {
+            "sources": "images/outlook_wx_showers.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_sunrain": {
+            "sources": "images/outlook_wx_sunrain.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_moonrain": {
+            "sources": "images/outlook_wx_moonrain.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_bolt": {
+            "sources": "images/outlook_wx_bolt.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_snow": {
+            "sources": "images/outlook_wx_snow.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_smog": {
+            "sources": "images/outlook_wx_smog.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wx_unknown": {
+            "sources": "images/outlook_wx_unknown.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_sun": {
+            "sources": "images/outlook_wxs_sun.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_moon": {
+            "sources": "images/outlook_wxs_moon.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_cloudsun": {
+            "sources": "images/outlook_wxs_cloudsun.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_cloudmoon": {
+            "sources": "images/outlook_wxs_cloudmoon.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_cloud": {
+            "sources": "images/outlook_wxs_cloud.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_brokenclouds": {
+            "sources": "images/outlook_wxs_brokenclouds.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_showers": {
+            "sources": "images/outlook_wxs_showers.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_sunrain": {
+            "sources": "images/outlook_wxs_sunrain.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_moonrain": {
+            "sources": "images/outlook_wxs_moonrain.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_bolt": {
+            "sources": "images/outlook_wxs_bolt.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_snow": {
+            "sources": "images/outlook_wxs_snow.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_smog": {
+            "sources": "images/outlook_wxs_smog.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "outlook_wxs_unknown": {
+            "sources": "images/outlook_wxs_unknown.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
           }
         }
       }
@@ -238,11 +344,11 @@
           "subdial_text": {
             "sources": [
               {
-                "file": "fonts/BarlowCondensed-SemiBold.ttf",
-                "symbols": " 0123456789ADEFHIMNORSTUWY"
+                "file": "fonts/BarlowCondensed-Medium.ttf",
+                "symbols": " 0123456789FMSTWadehinorstuy"
               }
             ],
-            "size": 16,
+            "size": 18,
             "bpp": 2
           }
         }
@@ -289,14 +395,34 @@
       ],
       "resources": {
         "fonts": {
-          "almanac_big": {
+          "almanac_hour": {
             "sources": [
               {
-                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "file": "fonts/BarlowCondensed-Light.ttf",
                 "symbols": "0123456789"
               }
             ],
-            "size": 34,
+            "size": 46,
+            "bpp": 2
+          },
+          "almanac_minute": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Light.ttf",
+                "symbols": "0123456789"
+              }
+            ],
+            "size": 38,
+            "bpp": 2
+          },
+          "almanac_mid": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Light.ttf",
+                "symbols": "0123456789 "
+              }
+            ],
+            "size": 26,
             "bpp": 2
           },
           "almanac_small": {
@@ -306,7 +432,7 @@
                 "symbols": " -0123456789ACDFJMNOSTWabcdeghilnoprtuvy°"
               }
             ],
-            "size": 16,
+            "size": 19,
             "bpp": 2
           }
         }

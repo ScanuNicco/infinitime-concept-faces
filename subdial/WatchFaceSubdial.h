@@ -33,6 +33,7 @@ namespace Pinetime {
 
         lv_font_t* font = nullptr;
         std::array<ConceptFaces::Line, 10> marks; // every hour but 3 (date) and 6 (sub-dial)
+        std::array<ConceptFaces::Line, 12> subMarks;
         ConceptFaces::Line hourHand;
         ConceptFaces::Line minuteHand;
         ConceptFaces::Line secondHand;

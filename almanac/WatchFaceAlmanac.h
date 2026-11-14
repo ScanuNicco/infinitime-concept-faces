@@ -17,7 +17,8 @@ namespace Pinetime {
     namespace Screens {
 
       // Almanac: the time as two rulers, hours above and minutes below, with the current value
-      // large in the middle. Weather above, date below. Fonts: /fonts/almanac_{big,small}.bin.
+      // large in the middle, running off both edges of the screen. Weather above, date below.
+      // Fonts: /fonts/almanac_{hour,minute,mid,small}.bin.
       class WatchFaceAlmanac : public Screen {
       public:
         WatchFaceAlmanac(Controllers::DateTime& dateTime,
@@ -37,7 +38,7 @@ namespace Pinetime {
           lv_obj_t* after;
         };
 
-        void SetRuler(Ruler& ruler, int value, int count, int first, bool twoDigits, lv_coord_t y);
+        void SetRuler(Ruler& ruler, int value, int count, int first, bool twoDigits, lv_coord_t y, lv_coord_t gap);
 
         Controllers::DateTime& dateTime;
         Controllers::Settings& settings;
@@ -46,7 +47,9 @@ namespace Pinetime {
         Utility::DirtyValue<uint8_t> minute {};
         Utility::DirtyValue<std::optional<Controllers::SimpleWeatherService::CurrentWeather>> currentWeather {};
 
-        lv_font_t* fontBig = nullptr;
+        lv_font_t* fontHour = nullptr;
+        lv_font_t* fontMinute = nullptr;
+        lv_font_t* fontMid = nullptr;
         lv_font_t* fontSmall = nullptr;
         Ruler hours;
         Ruler minutes;
