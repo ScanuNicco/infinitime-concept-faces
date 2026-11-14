@@ -7,7 +7,6 @@ extern lv_font_t jetbrains_mono_bold_20;
 
 namespace {
   constexpr const char* fontPath = "/fonts/constellation_text.bin";
-  constexpr const char* starsPath = "/images/constellation_stars.bin";
   constexpr lv_coord_t cx = 120;
   constexpr lv_coord_t cy = 122;
   constexpr int hourRadius = 42;
@@ -49,7 +48,32 @@ namespace {
 }
 
 bool WatchFaceConstellation::IsAvailable(Pinetime::Controllers::FS& filesystem) {
-  return AllExist(filesystem, {fontPath, starsPath});
+  return FileExists(filesystem, fontPath);
+}
+
+lv_design_res_t WatchFaceConstellation::Draw(lv_obj_t* layer, const lv_area_t* clip, lv_design_mode_t mode) {
+  if (mode != LV_DESIGN_DRAW_MAIN) {
+    return NotDrawing(mode);
+  }
+  static const lv_color_t faint = lv_color_hex(0x6f84b3);
+  static const lv_color_t bright = lv_color_hex(0xc3d0ee);
+  for (const Star& s : Owner<WatchFaceConstellation>(layer)->stars) {
+    const lv_coord_t x = s.x;
+    const lv_coord_t y = s.y;
+    if (s.size == 2) {
+      DrawDot(clip, x, y, 1, bright);
+      DrawDot(clip, x - 1, y, 1, bright, LV_OPA_70);
+      DrawDot(clip, x + 1, y, 1, bright, LV_OPA_70);
+      DrawDot(clip, x, y - 1, 1, bright, LV_OPA_70);
+      DrawDot(clip, x, y + 1, 1, bright, LV_OPA_70);
+    } else {
+      DrawDot(clip, x, y, 1, faint);
+      if (s.size == 1) {
+        DrawDot(clip, x + 1, y, 1, faint);
+      }
+    }
+  }
+  return LV_DESIGN_RES_OK;
 }
 
 WatchFaceConstellation::WatchFaceConstellation(Controllers::DateTime& dateTime,
@@ -61,12 +85,16 @@ WatchFaceConstellation::WatchFaceConstellation(Controllers::DateTime& dateTime,
   const lv_font_t* text = Or(font, &jetbrains_mono_bold_20);
 
   Background(sky);
-  if (FileExists(filesystem, starsPath)) {
-    lv_obj_t* stars = Image(starsPath, 0, 0);
-    // the 1-bit image is white stars on transparent; tint them a pale blue
-    lv_obj_set_style_local_image_recolor(stars, LV_IMG_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x8ea4d2));
-    lv_obj_set_style_local_image_recolor_opa(stars, LV_IMG_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_50);
+  // the same sky every time: stars at pseudo-random places from a fixed seed
+  uint32_t rng = 0x5eed1234;
+  for (Star& s : stars) {
+    rng ^= rng << 13;
+    rng ^= rng >> 17;
+    rng ^= rng << 5;
+    const uint32_t size = (rng >> 24) % 100;
+    s = {static_cast<uint8_t>(3 + rng % 234), static_cast<uint8_t>(3 + (rng >> 8) % 234), static_cast<uint8_t>(size > 82 ? 2 : (size > 55 ? 1 : 0))};
   }
+  DrawLayer(Draw, this);
 
   conditions = Label(text, LV_COLOR_WHITE);
   date = Label(text, lv_color_hex(0xd6e0f5));

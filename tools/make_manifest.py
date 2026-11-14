@@ -81,19 +81,11 @@ FACES = [
              "horizon_time": font(SEMIBOLD, 54, symbols="0123456789: AMP"),
              "horizon_day": font(LIGHT, 34, symbols=syms(DAYS_LOW)),
              "horizon_small": font(MEDIUM, 16, range_="0x20-0x7E,0xB0"),
-         },
-         images={
-             "horizon_dome": image("images/horizon_dome.png"),
-             "horizon_sun": image("images/horizon_sun.png"),
-             "horizon_moon": image("images/horizon_moon.png"),
          }),
     face("Words", "Words", "words", "A word clock: the time spelled out among dim letters, with the date in yellow."),
     face("Rally", "Rally", "rally",
          "A small analog clock in a ticked, numbered bezel; the band round the edge shows your steps and battery.",
-         fonts={"rally_digits": font(SEMIBOLD, 16, symbols=DIGITS)},
-         # the many tick marks are 1-bit images (tinted by the face): no RAM, unlike 80 line objects
-         images={n: image(f"images/{n}.png", "CF_INDEXED_1_BIT")
-                 for n in ("rally_ticks_minor", "rally_ticks_major", "rally_dial_ticks")}),
+         fonts={"rally_digits": font(SEMIBOLD, 16, symbols=DIGITS)}),
     face("Outlook", "Outlook", "outlook", "Large time and date, the weather and battery, and the coming days' forecast.",
          fonts={
              "outlook_time": font(LIGHT, 88, symbols=DIGITS + ":"),
@@ -111,8 +103,7 @@ FACES = [
          fonts={"subdial_text": font(MEDIUM, 18, symbols=syms(DIGITS, DAYS_LOW))}),
     face("Constellation", "Constellation", "constellation",
          "The hour and minute as stars joined like a constellation, on a starry sky, with the weather and date.",
-         fonts={"constellation_text": font(MEDIUM, 22, symbols=syms(DIGITS, " -", DEGREE, CONDITIONS, MONTHS_UP, DAYS_SHORT_UP))},
-         images={"constellation_stars": image("images/constellation_stars.png", "CF_INDEXED_1_BIT")}),
+         fonts={"constellation_text": font(MEDIUM, 22, symbols=syms(DIGITS, " -", DEGREE, CONDITIONS, MONTHS_UP, DAYS_SHORT_UP))}),
     face("Almanac", "Almanac", "almanac",
          "The time as two rulers, hours above and minutes below, with the weather and date.",
          fonts={

@@ -20,8 +20,8 @@ namespace Pinetime {
 
       // Rally: a small analog clock inside a numbered, ticked bezel. A band round the edge of the
       // screen shows your steps (left half, green then yellow near the goal) and the battery (right
-      // half, white). Font /fonts/rally_digits.bin; tick marks are 1-bit images
-      // /images/rally_{ticks_minor,ticks_major,dial_ticks}.bin.
+      // half, white). Font /fonts/rally_digits.bin. The ticks and the band are drawn by one draw
+      // layer (see FaceKit.h) rather than images or one object per mark, which keeps the face fast.
       class WatchFaceRally : public Screen {
       public:
         WatchFaceRally(Controllers::DateTime& dateTime,
@@ -37,6 +37,17 @@ namespace Pinetime {
 
       private:
         static constexpr int segments = 32; // round the whole edge; 16 per gauge
+        static constexpr int bezelTicks = 59; // every minute but 60 (the red mark)
+        static constexpr int dialTicks = 12;
+
+        struct Tick {
+          lv_point_t from;
+          lv_point_t to;
+          uint8_t width;
+          bool major;
+        };
+
+        static lv_design_res_t Draw(lv_obj_t* layer, const lv_area_t* clip, lv_design_mode_t mode);
 
         Controllers::DateTime& dateTime;
         Controllers::Settings& settings;
@@ -49,7 +60,11 @@ namespace Pinetime {
         Utility::DirtyValue<int> batterySegments {};
 
         lv_font_t* font = nullptr;
-        std::array<ConceptFaces::Line, segments> band;
+        std::array<lv_point_t, segments + 1> band; // segment i runs from band[i] to band[i + 1]
+        std::array<Tick, bezelTicks + dialTicks> ticks;
+        int stepsLit = 0;
+        int batteryLit = 0;
+        lv_obj_t* layer;
         ConceptFaces::Line hourBase;
         ConceptFaces::Line hourBlade;
         ConceptFaces::Line hourTip;

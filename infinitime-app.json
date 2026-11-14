@@ -83,20 +83,6 @@
             "size": 16,
             "bpp": 2
           }
-        },
-        "images": {
-          "horizon_dome": {
-            "sources": "images/horizon_dome.png",
-            "color_format": "CF_TRUE_COLOR_ALPHA"
-          },
-          "horizon_sun": {
-            "sources": "images/horizon_sun.png",
-            "color_format": "CF_TRUE_COLOR_ALPHA"
-          },
-          "horizon_moon": {
-            "sources": "images/horizon_moon.png",
-            "color_format": "CF_TRUE_COLOR_ALPHA"
-          }
         }
       }
     },
@@ -132,20 +118,6 @@
             ],
             "size": 16,
             "bpp": 2
-          }
-        },
-        "images": {
-          "rally_ticks_minor": {
-            "sources": "images/rally_ticks_minor.png",
-            "color_format": "CF_INDEXED_1_BIT"
-          },
-          "rally_ticks_major": {
-            "sources": "images/rally_ticks_major.png",
-            "color_format": "CF_INDEXED_1_BIT"
-          },
-          "rally_dial_ticks": {
-            "sources": "images/rally_dial_ticks.png",
-            "color_format": "CF_INDEXED_1_BIT"
           }
         }
       }
@@ -397,12 +369,6 @@
             ],
             "size": 22,
             "bpp": 2
-          }
-        },
-        "images": {
-          "constellation_stars": {
-            "sources": "images/constellation_stars.png",
-            "color_format": "CF_INDEXED_1_BIT"
           }
         }
       }

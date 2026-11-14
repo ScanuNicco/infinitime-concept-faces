@@ -19,7 +19,8 @@ namespace Pinetime {
 
       // Horizon: time and date over a dome. The sun travels along the dome from today's sunrise to
       // sunset (from the weather data; 6:00-18:00 without it) and the moon crosses it at night.
-      // Uses fonts /fonts/horizon_{time,day,small}.bin and images /images/horizon_{dome,sun,moon}.bin.
+      // Uses fonts /fonts/horizon_{time,day,small}.bin. The dome, its dotted arc, the sun and the moon
+      // are drawn with LVGL shapes (no images: decoding those from flash made the face slow to open).
       class WatchFaceHorizon : public Screen {
       public:
         WatchFaceHorizon(Controllers::DateTime& dateTime,
@@ -51,8 +52,12 @@ namespace Pinetime {
         lv_obj_t* date;
         lv_obj_t* weekday;
         lv_obj_t* time;
+        static lv_design_res_t DrawDots(lv_obj_t* layer, const lv_area_t* clip, lv_design_mode_t mode);
+
+        lv_obj_t* sunGlow;
         lv_obj_t* sun;
         lv_obj_t* moon;
+        lv_obj_t* moonBite;
         lv_obj_t* temperature;
         lv_obj_t* location;
         lv_task_t* refreshTask;

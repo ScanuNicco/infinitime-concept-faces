@@ -18,14 +18,14 @@ connection or sensors.*
 | Face | | Uses |
 |---|---|---|
 | **Tiles** | Big light digits on dark red flip-clock tiles; AM/PM in 12-hour mode. | 2 fonts |
-| **Horizon** | Time and date over a dome where the sun travels from today's sunrise to sunset (a moon at night), with temperature, high/low and location. | 3 fonts, 3 images, weather |
+| **Horizon** | Time and date over a dome where the sun travels from today's sunrise to sunset (a moon at night), with temperature, high/low and location. | 3 fonts, weather |
 | **Words** | A word clock: "IT IS TEN PAST THREE" lit among dim letters, the date in yellow. Five-minute steps. | built-in font |
-| **Rally** | A small analog clock inside a ticked, numbered bezel. The band round the edge shows your steps on the left (green, then yellow near your goal) and the battery on the right. | 1 font, 3 images, steps |
+| **Rally** | A small analog clock inside a ticked, numbered bezel. The band round the edge shows your steps on the left (green, then yellow near your goal) and the battery on the right. | 1 font, steps |
 | **Outlook** | Large time and date over an arc; weather icon, temperature, battery, and icons for the next three days. | 3 fonts, 26 images, weather |
 | **Glow** | Minimal analog with cyan hands, a red second hand, the date, battery and Bluetooth. | 1 font |
 | **Noir** | Long white hands and a red second hand on black, with the day and date at three. | 1 font |
 | **Subdial** | A dress-watch face with a small-seconds sub-dial at six, a date window and the weekday. | 1 font |
-| **Constellation** | The hour and minute as two stars joined like a constellation, on a starry sky, with the weather and date. | 1 font, 1 image, weather |
+| **Constellation** | The hour and minute as two stars joined like a constellation, on a starry sky, with the weather and date. | 1 font, weather |
 | **Almanac** | The time as two rulers — hours above, minutes below — with the current values large, plus weather and date. | 2 fonts, weather |
 
 Weather (and Horizon's sunrise/sunset) comes from your phone's companion app (Gadgetbridge,
@@ -56,13 +56,20 @@ resource pack as `/fonts/<name>.bin` and `/images/<name>.bin`. The faces check f
 
 Fonts are loaded into the watch's RAM, so each contains only the characters its face can show: from
 0.4 KB (Rally) to about 8 KB (Horizon, Outlook). Keep it around there: a face that loaded 16 KB of
-fonts crashed the watch in testing. Images are drawn straight from flash and cost no RAM, which is
-why Outlook's weather icons are images (one per icon and size) rather than a font holding them all.
-Constellation's starfield is a 1-bit image (7 KB), white stars on transparent, tinted by the face.
+fonts crashed the watch in testing.
+
+Images cost no RAM, but LVGL decodes them from the watch's external flash every time that part of
+the screen is redrawn, which is slow for large ones: the first versions of Horizon (a full-width
+dome image), Constellation (a full-screen starfield) and Rally (full-screen tick images, redrawn
+every second around the second hand) were noticeably slow to open. They now draw these with LVGL
+shapes, or with a *draw layer* (`common/FaceKit.h`): one object whose drawing function draws many
+marks clipped to the area being redrawn, with no images and almost no RAM. Images are kept for
+small things only: Outlook's weather icons (one image per icon and size, rather than a font
+holding all of them in RAM).
 
 The two scripts in [`tools/`](tools/) generate the manifest (computing each font's characters from
-the month, day and weather words it shows) and the images (Horizon's dome, Constellation's stars,
-Outlook's weather icons, and Horizon's sun-path coordinates):
+the month, day and weather words it shows) and Outlook's weather icons, and print the coordinate
+tables for Horizon's sun path and dotted arc:
 
     python3 tools/make_manifest.py
     python3 tools/make_images.py

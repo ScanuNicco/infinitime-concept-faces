@@ -167,6 +167,69 @@ namespace ConceptFaces {
     return m;
   }
 
+  // ---- drawing many marks cheaply -----------------------------------------------------------
+  //
+  // A draw layer is one invisible object whose drawing is done by a function of the face. LVGL calls
+  // it for each part of the screen it redraws, and LVGL's line / rectangle drawing clips to that part.
+  // Many marks this way cost no RAM per mark and no flash reads, unlike images from the resource pack
+  // (which LVGL decodes from external flash every time they are redrawn) or one object per mark.
+  //
+  // The face passes itself as `owner` and gets it back with Owner<Face>(obj) in its draw function:
+  //   static lv_design_res_t Draw(lv_obj_t* obj, const lv_area_t* clip, lv_design_mode_t mode) {
+  //     if (mode != LV_DESIGN_DRAW_MAIN) return mode == LV_DESIGN_COVER_CHK ? LV_DESIGN_RES_NOT_COVER : LV_DESIGN_RES_OK;
+  //     ... DrawLine(clip, ...) ...
+  //   }
+  inline lv_obj_t* DrawLayer(lv_design_cb_t draw, void* owner, lv_coord_t x = 0, lv_coord_t y = 0, lv_coord_t w = 240, lv_coord_t h = 240) {
+    lv_obj_t* o = lv_obj_create(lv_scr_act(), nullptr);
+    lv_obj_set_pos(o, x, y);
+    lv_obj_set_size(o, w, h);
+    lv_obj_set_click(o, false);
+    lv_obj_set_user_data(o, owner);
+    lv_obj_set_design_cb(o, draw);
+    return o;
+  }
+
+  template <class T>
+  T* Owner(lv_obj_t* layer) {
+    return static_cast<T*>(lv_obj_get_user_data(layer));
+  }
+
+  // Standard answer for the modes a draw layer doesn't draw in: it never fully covers anything.
+  inline lv_design_res_t NotDrawing(lv_design_mode_t mode) {
+    return mode == LV_DESIGN_COVER_CHK ? LV_DESIGN_RES_NOT_COVER : LV_DESIGN_RES_OK;
+  }
+
+  inline void DrawLine(const lv_area_t* clip, lv_point_t a, lv_point_t b, lv_color_t colour, lv_style_int_t width, bool rounded = false,
+                       lv_opa_t opa = LV_OPA_COVER) {
+    lv_draw_line_dsc_t d;
+    lv_draw_line_dsc_init(&d);
+    d.color = colour;
+    d.width = width;
+    d.opa = opa;
+    d.round_start = rounded;
+    d.round_end = rounded;
+    lv_draw_line(&a, &b, clip, &d);
+  }
+
+  // A filled dot `size` pixels across centred on (cx, cy): a square up to 2 px, round above that.
+  inline void DrawDot(const lv_area_t* clip, lv_coord_t cx, lv_coord_t cy, lv_coord_t size, lv_color_t colour, lv_opa_t opa = LV_OPA_COVER) {
+    const lv_area_t area {static_cast<lv_coord_t>(cx - size / 2),
+                          static_cast<lv_coord_t>(cy - size / 2),
+                          static_cast<lv_coord_t>(cx - size / 2 + size - 1),
+                          static_cast<lv_coord_t>(cy - size / 2 + size - 1)};
+    lv_area_t visible;
+    if (!_lv_area_intersect(&visible, &area, clip)) {
+      return; // nothing of it in the part being redrawn
+    }
+    lv_draw_rect_dsc_t d;
+    lv_draw_rect_dsc_init(&d);
+    d.bg_color = colour;
+    d.bg_opa = opa;
+    d.radius = size > 2 ? LV_RADIUS_CIRCLE : 0;
+    d.border_width = 0;
+    lv_draw_rect(&area, clip, &d);
+  }
+
   // A temperature in the unit the user chose in Settings.
   inline int Degrees(const Pinetime::Controllers::SimpleWeatherService::Temperature& t, const Pinetime::Controllers::Settings& settings) {
     return settings.GetWeatherFormat() == Pinetime::Controllers::Settings::WeatherFormat::Imperial ? t.Fahrenheit() : t.Celsius();
