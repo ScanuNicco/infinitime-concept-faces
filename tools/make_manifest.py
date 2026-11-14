@@ -88,8 +88,11 @@ FACES = [
          }),
     face("Words", "Words", "words", "A word clock: the time spelled out among dim letters, with the date in yellow."),
     face("Rally", "Rally", "rally",
-         "A small analog clock in a numbered bezel; the track around it fills as you walk towards your step goal.",
-         fonts={"rally_digits": font(SEMIBOLD, 16, symbols=DIGITS)}),
+         "A small analog clock in a ticked, numbered bezel; the band round the edge shows your steps and battery.",
+         fonts={"rally_digits": font(SEMIBOLD, 16, symbols=DIGITS)},
+         # the many tick marks are 1-bit images (tinted by the face): no RAM, unlike 80 line objects
+         images={n: image(f"images/{n}.png", "CF_INDEXED_1_BIT")
+                 for n in ("rally_ticks_minor", "rally_ticks_major", "rally_dial_ticks")}),
     face("Outlook", "Outlook", "outlook", "Large time and date, the weather and battery, and the coming days' forecast.",
          fonts={
              "outlook_time": font(LIGHT, 88, symbols=DIGITS + ":"),

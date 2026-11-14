@@ -112,7 +112,7 @@
       "type": "watchface",
       "enum": "Rally",
       "name": "Rally",
-      "description": "A small analog clock in a numbered bezel; the track around it fills as you walk towards your step goal.",
+      "description": "A small analog clock in a ticked, numbered bezel; the band round the edge shows your steps and battery.",
       "header": "rally/WatchFaceRally.h",
       "sources": [
         "rally/WatchFaceRally.cpp"
@@ -128,6 +128,20 @@
             ],
             "size": 16,
             "bpp": 2
+          }
+        },
+        "images": {
+          "rally_ticks_minor": {
+            "sources": "images/rally_ticks_minor.png",
+            "color_format": "CF_INDEXED_1_BIT"
+          },
+          "rally_ticks_major": {
+            "sources": "images/rally_ticks_major.png",
+            "color_format": "CF_INDEXED_1_BIT"
+          },
+          "rally_dial_ticks": {
+            "sources": "images/rally_dial_ticks.png",
+            "color_format": "CF_INDEXED_1_BIT"
           }
         }
       }

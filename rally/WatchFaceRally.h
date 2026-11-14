@@ -1,12 +1,12 @@
 #pragma once
 
 #include <array>
-#include <chrono>
 #include <lvgl/lvgl.h>
 
 #include "displayapp/apps/Apps.h"
 #include "displayapp/Controllers.h"
 #include "displayapp/screens/Screen.h"
+#include "components/battery/BatteryController.h"
 #include "components/datetime/DateTimeController.h"
 #include "components/fs/FS.h"
 #include "components/motion/MotionController.h"
@@ -18,13 +18,16 @@ namespace Pinetime {
   namespace Applications {
     namespace Screens {
 
-      // Rally: a small analog clock inside a numbered bezel. The track around the edge fills from
-      // green to yellow as you walk towards your daily step goal. Font: /fonts/rally_digits.bin.
+      // Rally: a small analog clock inside a numbered, ticked bezel. A band round the edge of the
+      // screen shows your steps (left half, green then yellow near the goal) and the battery (right
+      // half, white). Font /fonts/rally_digits.bin; tick marks are 1-bit images
+      // /images/rally_{ticks_minor,ticks_major,dial_ticks}.bin.
       class WatchFaceRally : public Screen {
       public:
         WatchFaceRally(Controllers::DateTime& dateTime,
                        Controllers::Settings& settings,
                        Controllers::MotionController& motion,
+                       const Controllers::Battery& battery,
                        Controllers::FS& filesystem);
         ~WatchFaceRally() override;
 
@@ -33,19 +36,27 @@ namespace Pinetime {
         static bool IsAvailable(Controllers::FS& filesystem);
 
       private:
-        static constexpr int segments = 32;
+        static constexpr int segments = 32; // round the whole edge; 16 per gauge
 
         Controllers::DateTime& dateTime;
         Controllers::Settings& settings;
         Controllers::MotionController& motion;
+        const Controllers::Battery& battery;
 
-        Utility::DirtyValue<std::chrono::time_point<std::chrono::system_clock, std::chrono::minutes>> currentMinute {};
-        Utility::DirtyValue<int> litSegments {};
+        Utility::DirtyValue<uint8_t> minute {};
+        Utility::DirtyValue<uint8_t> second {};
+        Utility::DirtyValue<int> stepSegments {};
+        Utility::DirtyValue<int> batterySegments {};
 
         lv_font_t* font = nullptr;
-        std::array<ConceptFaces::Line, segments> track;
-        ConceptFaces::Line hourHand;
+        std::array<ConceptFaces::Line, segments> band;
+        ConceptFaces::Line hourBase;
+        ConceptFaces::Line hourBlade;
+        ConceptFaces::Line hourTip;
         ConceptFaces::Line minuteHand;
+        ConceptFaces::Line minuteTail;
+        ConceptFaces::Line secondHand;
+        lv_obj_t* minuteWeight;
         lv_obj_t* date;
         lv_task_t* refreshTask;
       };
@@ -60,6 +71,7 @@ namespace Pinetime {
         return new Screens::WatchFaceRally(controllers.dateTimeController,
                                            controllers.settingsController,
                                            controllers.motionController,
+                                           controllers.batteryController,
                                            controllers.filesystem);
       }
 

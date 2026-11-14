@@ -131,6 +131,56 @@ def glyph(codepoint, box):
     return out.resize((box, box), Image.LANCZOS)
 
 
+# Rally geometry (keep in sync with rally/WatchFaceRally.cpp)
+RALLY_TICKS_HALF = 110  # outer ticks end on a square of this half-size (inside the edge band)
+RALLY_DIAL = 58         # inner dial half-size
+
+
+def square_ray(cx, cy, half, deg):
+    """Where a ray from (cx, cy) at deg (clockwise from 12) meets a square of half-size half."""
+    t = math.radians(deg)
+    dx, dy = math.sin(t), -math.cos(t)
+    m = max(abs(dx), abs(dy))
+    return dx / m, dy / m  # direction scaled so the larger component is 1
+
+
+def one_bit(draw_fn, size):
+    """InfiniTime's 1-bit images are white (255) on transparent (0). Draw at 4x (draw_fn gets the
+    scale) and scale down before thresholding, so thin angled lines come out even, not jagged."""
+    img = Image.new("L", (size[0] * SS, size[1] * SS), 0)
+    draw_fn(ImageDraw.Draw(img), SS)
+    img = img.resize(size, Image.LANCZOS)
+    return img.point(lambda v: 255 if v >= 110 else 0)
+
+
+def rally_ticks(major: bool):
+    """Outer bezel ticks along the square edge: every minute (minor) or every five (major)."""
+    def draw(d, k):
+        for m in range(60):
+            if (m % 5 == 0) != major or m == 0:  # 0: the red mark is drawn by the face
+                continue
+            ux, uy = square_ray(120, 120, 1, m * 6)
+            length, width = (14, 3) if major else (8, 2)
+            r1 = RALLY_TICKS_HALF
+            d.line([((120 + ux * (r1 - length)) * k, (120 + uy * (r1 - length)) * k),
+                    ((120 + ux * r1) * k, (120 + uy * r1) * k)], fill=255, width=width * k)
+    return one_bit(draw, (W, W))
+
+
+def rally_dial_ticks():
+    """Short marks across the inner dial's outline at each hour (image covers the dial only)."""
+    size = 2 * RALLY_DIAL + 8
+    c = size / 2
+
+    def draw(d, k):
+        for h in range(12):
+            ux, uy = square_ray(c, c, 1, h * 30)
+            r = RALLY_DIAL - 1
+            d.line([((c + ux * (r - 4)) * k, (c + uy * (r - 4)) * k), ((c + ux * (r + 3)) * k, (c + uy * (r + 3)) * k)],
+                   fill=255, width=2 * k)
+    return one_bit(draw, (size, size))
+
+
 def path_table(n=24):
     """Screen positions along the dotted arc, from sunrise (index 0) to sunset (index n)."""
     out = []
@@ -146,6 +196,9 @@ if __name__ == "__main__":
     sun().save(ROOT / "images" / "horizon_sun.png")
     moon().save(ROOT / "images" / "horizon_moon.png")
     stars().save(ROOT / "images" / "constellation_stars.png")
+    rally_ticks(False).save(ROOT / "images" / "rally_ticks_minor.png")
+    rally_ticks(True).save(ROOT / "images" / "rally_ticks_major.png")
+    rally_dial_ticks().save(ROOT / "images" / "rally_dial_ticks.png")
     for prefix, box in WEATHER_SIZES.items():
         for name, cp in WEATHER_ICONS.items():
             glyph(cp, box).save(ROOT / "images" / f"{prefix}{name}.png")

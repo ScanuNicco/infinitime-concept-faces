@@ -19,7 +19,7 @@ emulator has no phone connection or motion sensor.*
 | **Tiles** | Big light digits on dark red flip-clock tiles; AM/PM in 12-hour mode. | 2 fonts |
 | **Horizon** | Time and date over a dome where the sun travels from today's sunrise to sunset (a moon at night), with temperature, high/low and location. | 3 fonts, 3 images, weather |
 | **Words** | A word clock: "IT IS TEN PAST THREE" lit among dim letters, the date in yellow. Five-minute steps. | built-in font |
-| **Rally** | A small analog clock inside a numbered bezel. The track round the edge fills from green to yellow as you walk towards your step goal. | 1 font, steps |
+| **Rally** | A small analog clock inside a ticked, numbered bezel. The band round the edge shows your steps on the left (green, then yellow near your goal) and the battery on the right. | 1 font, 3 images, steps |
 | **Outlook** | Large time and date over an arc; weather icon, temperature, battery, and icons for the next three days. | 3 fonts, 26 images, weather |
 | **Glow** | Minimal analog with cyan hands, a red second hand, the date, battery and Bluetooth. | 1 font |
 | **Noir** | Long white hands and a red second hand on black, with the day and date at three. | 1 font |
