@@ -1,0 +1,102 @@
+{
+  "manifestVersion": 1,
+  "name": "Concept Faces",
+  "author": "InfiniTime Builder examples",
+  "description": "Two watch faces adapted from Pebble concept designs: Tiles and Horizon. They use custom fonts and images from the resource pack.",
+  "homepage": "https://github.com/ScanuNicco/infinitime-concept-faces",
+  "minInfiniTime": "1.16.0",
+  "apps": [
+    {
+      "type": "watchface",
+      "enum": "Tiles",
+      "name": "Tiles",
+      "description": "Big light digits on dark red tiles, like a flip clock.",
+      "header": "tiles/WatchFaceTiles.h",
+      "sources": [
+        "tiles/WatchFaceTiles.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "tiles_digits": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Light.ttf",
+                "symbols": "0123456789"
+              }
+            ],
+            "size": 72,
+            "bpp": 2
+          },
+          "tiles_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": " 0123456789ABCDEFGHIJLMNOPRSTUVWY"
+              }
+            ],
+            "size": 22,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Horizon",
+      "name": "Horizon",
+      "description": "Time and date over a dome where the sun travels from today's sunrise to sunset, with the weather.",
+      "header": "horizon/WatchFaceHorizon.h",
+      "sources": [
+        "horizon/WatchFaceHorizon.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "horizon_time": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": "0123456789: AMP"
+              }
+            ],
+            "size": 54,
+            "bpp": 2
+          },
+          "horizon_day": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Light.ttf",
+                "symbols": " FMSTWadehinorstuy"
+              }
+            ],
+            "size": 34,
+            "bpp": 2
+          },
+          "horizon_small": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Medium.ttf",
+                "range": "0x20-0x7E,0xB0"
+              }
+            ],
+            "size": 16,
+            "bpp": 2
+          }
+        },
+        "images": {
+          "horizon_dome": {
+            "sources": "images/horizon_dome.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "horizon_sun": {
+            "sources": "images/horizon_sun.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          },
+          "horizon_moon": {
+            "sources": "images/horizon_moon.png",
+            "color_format": "CF_TRUE_COLOR_ALPHA"
+          }
+        }
+      }
+    }
+  ]
+}
