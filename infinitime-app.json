@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "name": "Concept Faces",
   "author": "InfiniTime Builder examples",
-  "description": "Two watch faces adapted from Pebble concept designs: Tiles and Horizon. They use custom fonts and images from the resource pack.",
+  "description": "Watch faces adapted from Pebble concept designs. Most use custom fonts and images from the resource pack.",
   "homepage": "https://github.com/ScanuNicco/infinitime-concept-faces",
   "minInfiniTime": "1.16.0",
   "apps": [
@@ -94,6 +94,220 @@
           "horizon_moon": {
             "sources": "images/horizon_moon.png",
             "color_format": "CF_TRUE_COLOR_ALPHA"
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Words",
+      "name": "Words",
+      "description": "A word clock: the time spelled out among dim letters, with the date in yellow.",
+      "header": "words/WatchFaceWords.h",
+      "sources": [
+        "words/WatchFaceWords.cpp"
+      ]
+    },
+    {
+      "type": "watchface",
+      "enum": "Rally",
+      "name": "Rally",
+      "description": "A small analog clock in a numbered bezel; the track around it fills as you walk towards your step goal.",
+      "header": "rally/WatchFaceRally.h",
+      "sources": [
+        "rally/WatchFaceRally.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "rally_digits": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": "0123456789"
+              }
+            ],
+            "size": 16,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Outlook",
+      "name": "Outlook",
+      "description": "Large time and date, the weather and battery, and the coming days' forecast.",
+      "header": "outlook/WatchFaceOutlook.h",
+      "sources": [
+        "outlook/WatchFaceOutlook.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "outlook_time": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Light.ttf",
+                "symbols": "0123456789:"
+              }
+            ],
+            "size": 72,
+            "bpp": 2
+          },
+          "outlook_temp": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": "0123456789°-"
+              }
+            ],
+            "size": 40,
+            "bpp": 2
+          },
+          "outlook_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": " %0123456789ABCDEFGHIJLMNOPRSTUVWY"
+              }
+            ],
+            "size": 18,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Glow",
+      "name": "Glow",
+      "description": "Minimal analog: cyan hands, a red second hand, the date, battery and Bluetooth.",
+      "header": "glow/WatchFaceGlow.h",
+      "sources": [
+        "glow/WatchFaceGlow.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "glow_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": " 0123456789ABCDEFGHIJLMNOPRSTUVWY"
+              }
+            ],
+            "size": 15,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Noir",
+      "name": "Noir",
+      "description": "Long white hands and a red second hand on black, with the date at three.",
+      "header": "noir/WatchFaceNoir.h",
+      "sources": [
+        "noir/WatchFaceNoir.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "noir_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Medium.ttf",
+                "symbols": " 0123456789ADEFHIMNORSTUW"
+              }
+            ],
+            "size": 16,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Subdial",
+      "name": "Subdial",
+      "description": "A dress-watch face with a small-seconds sub-dial, date window and weekday.",
+      "header": "subdial/WatchFaceSubdial.h",
+      "sources": [
+        "subdial/WatchFaceSubdial.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "subdial_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": " 0123456789ADEFHIMNORSTUWY"
+              }
+            ],
+            "size": 16,
+            "bpp": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Constellation",
+      "name": "Constellation",
+      "description": "The hour and minute as stars joined like a constellation, on a starry sky, with the weather and date.",
+      "header": "constellation/WatchFaceConstellation.h",
+      "sources": [
+        "constellation/WatchFaceConstellation.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "constellation_text": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Medium.ttf",
+                "symbols": " -0123456789ABCDEFGHIJLMNOPRSTUVWYadeghilmnorstuwy°"
+              }
+            ],
+            "size": 22,
+            "bpp": 2
+          }
+        },
+        "images": {
+          "constellation_stars": {
+            "sources": "images/constellation_stars.png",
+            "color_format": "CF_INDEXED_1_BIT"
+          }
+        }
+      }
+    },
+    {
+      "type": "watchface",
+      "enum": "Almanac",
+      "name": "Almanac",
+      "description": "The time as two rulers, hours above and minutes below, with the weather and date.",
+      "header": "almanac/WatchFaceAlmanac.h",
+      "sources": [
+        "almanac/WatchFaceAlmanac.cpp"
+      ],
+      "resources": {
+        "fonts": {
+          "almanac_big": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-SemiBold.ttf",
+                "symbols": "0123456789"
+              }
+            ],
+            "size": 34,
+            "bpp": 2
+          },
+          "almanac_small": {
+            "sources": [
+              {
+                "file": "fonts/BarlowCondensed-Medium.ttf",
+                "symbols": " -0123456789ACDFJMNOSTWabcdeghilnoprtuvy°"
+              }
+            ],
+            "size": 16,
+            "bpp": 2
           }
         }
       }
